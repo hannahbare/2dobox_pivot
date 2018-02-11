@@ -18,9 +18,11 @@
 <header>
   <section class="header-container">
     <h1 class="logo" aria-label="#"><span>idea</span>box</h1>
-    <input class="idea-title-input" type="text" aria-label="#" placeholder="Title" />
-    <input class="idea-body-input" type="text" aria-label="#" placeholder="Body" />
-    <button class="save-idea-button" type="button" aria-label="#">save</button>
+    <form id="new-item-form">
+      <input class="idea-title-input" type="text" aria-label="#" placeholder="Title" />
+      <input class="idea-body-input" type="text" aria-label="#" placeholder="Body" />
+      <button type="submit" aria-label="#" form="new-item-form" class="save-idea-button">save</button>
+    </form>
   </section>
 </header>
 
