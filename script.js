@@ -7,7 +7,6 @@ var $downvoteButton = $('.downvote-button');
 $('.save-idea-button').on('click', function(event) {
   createIdea();
   storeIdeaList();
-  storeQualityCount();
   event.preventDefault();
   $('#new-item-form').children('input').val('');
 });
