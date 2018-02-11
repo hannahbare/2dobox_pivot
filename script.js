@@ -1,5 +1,7 @@
 var $ideaTitleInput = $('.idea-title-input');
 var $ideaBodyInput = $('.idea-body-input');
+var $upvoteButton = $('.upvote-button');
+var $downvoteButton = $('.downvote-button');
 
 // $('.save-idea-button').on('click', createIdea);
 // $('.save-idea-button').on('click', storeIdeaList);
@@ -10,10 +12,12 @@ $('.save-idea-button').on('click', function(event) {
   event.preventDefault();
   $('#new-item-form').children('input').val('');
 });
-
 $('.idea-list').on('click', '.delete-button', deleteIdea);
-
+$('.idea-list').on('click', '.upvote-button', upvote);
+$('.idea-list').on('click', '.downvote-button', downvote);
 $( window ).on('load', loadIdeaList);
+
+qualityCount = 0;
 
 function createIdea() {
   var ideaTitleInputValue = $ideaTitleInput.val();
@@ -49,7 +53,48 @@ function loadIdeaList() {
   $('.idea-list').prepend(parsedIdeaList);
 };
 
+// function storeQualityCount() {
+//   var ideaList = $('.idea-list').html();
+//   var JSONIdeaList = JSON.stringify(ideaList);
+//   localStorage.setItem('storedIdeaList', JSONIdeaList);
+//   };
+
+// function loadQualityCount() {
+//   var retrievedIdeaList = localStorage.getItem('storedIdeaList');
+//   var parsedIdeaList = JSON.parse(retrievedIdeaList);
+//   $('.idea-list').prepend(parsedIdeaList);
+// };
+
+
 function deleteIdea() {
   $(this).closest('.idea').remove();
   storeIdeaList();
 }
+
+function upvote() {
+  qualityCount++;
+  if (qualityCount === 1) {
+    $(this).parent().find('.idea-quality').text('plausible');
+  } else {
+    $(this).parent().find('.idea-quality').text('genius');
+    qualityCount = 2;
+  }
+  storeIdeaList();
+}
+
+function downvote() {
+  qualityCount--;
+  if (qualityCount === 1) {
+    $(this).parent().find('.idea-quality').text('plausible');
+  } else {
+    $(this).parent().find('.idea-quality').text('swill');
+    qualityCount = 0;
+  }
+  storeIdeaList();
+};
+
+
+
+
+
+
