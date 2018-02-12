@@ -12,7 +12,9 @@ $('.save-idea-button').on('click', function(event) {
 $('.idea-list').on('click', '.delete-button', deleteIdea);
 $('.idea-list').on('click', '.upvote-button', upvote);
 $('.idea-list').on('click', '.downvote-button', downvote);
+$(document).on('input', '.search-input', search);
 $(window).on('load', loadIdeaList);
+$(window).on('load', clearSearch);
 
 function createIdea() {
   var ideaTitleInputValue = $ideaTitleInput.val();
@@ -75,26 +77,14 @@ function downvote() {
   storeIdeaList();
 };
 
+function search() {
+  searchValue = $(this).val().toLowerCase();
+  $(".idea-list .idea").filter(function() {
+  $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
+  });
 
-// function search() {
-//   console.log('hello');
-//     var input, filter, ul, li, a, i;
-//     var $searchInput = $('.search-input');
-//     var searchInputFormatted = $('.search-input').val().toUpperCase();
-//     var searchIdeaList = $('.idea-list');
-//     var $searchIdea = $('.idea');
-//     var ideaTitle = $('h2');
-//     for (i = 0; i < $searchIdea.length; i++) {
-//         a = $searchIdea[i].ideaTitle[0];
-//         if (a.innerHTML.toUpperCase().indexOf(searchInputFormatted) > -1) {
-//             $searchIdea[i].style.display = "";
-//         } else {
-//             $searchIdea[i].style.display = "none";
-
-//         }
-//     }
-//     storeIdeaList();
-// }
+  storeIdeaList();
+}
 
 
 
