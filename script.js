@@ -5,6 +5,7 @@ var $downvoteButton = $('.downvote-button');
 
 $('.save-idea-button').on('click', function(event) {
   createIdea();
+  clearInputs();
   storeIdeaList();
   event.preventDefault();
   $('#new-item-form').children('input').val('');
@@ -13,8 +14,10 @@ $('.idea-list').on('click', '.delete-button', deleteIdea);
 $('.idea-list').on('click', '.upvote-button', upvote);
 $('.idea-list').on('click', '.downvote-button', downvote);
 $(document).on('input', '.search-input', search);
-$(window).on('load', loadIdeaList);
-$(window).on('load', clearSearch);
+$(window).on('load', function() {
+  loadIdeaList();
+  displayIdeas();
+});
 
 function createIdea() {
   var ideaTitleInputValue = $ideaTitleInput.val();
@@ -78,14 +81,21 @@ function downvote() {
 };
 
 function search() {
-  searchValue = $(this).val().toLowerCase();
+  var searchValue = $(this).val().toLowerCase();
   $(".idea-list .idea").filter(function() {
   $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
   });
-
   storeIdeaList();
 }
 
+function clearInputs() {
+  $ideaTitleInput.val('');
+  $ideaBodyInput.val('');
+}
+
+function displayIdeas() {
+  $('.idea').removeAttr('style');
+}
 
 
 
