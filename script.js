@@ -31,13 +31,13 @@ function createIdea() {
 function prependIdea(title, body) {
   $('.idea-list').prepend(`
     <div class="idea" >
-      <h2 contenteditable="true">${title}</h2> 
-      <img class="delete-button icon" src="icons/delete.svg">
-      <p contenteditable="true">${body}</p>
+      <h2 aria-label="Idea title" contenteditable="true">${title}</h2> 
+      <img tabindex="0" role="button" aria-label="Delete idea" class="delete-button icon" src="icons/delete.svg">
+      <p aria-label="Idea body" contenteditable="true">${body}</p>
       <div class="vote-container">
         <div class="vote-buttons-container">
-          <img class="upvote-button icon" src="icons/upvote.svg">
-          <img class="downvote-button icon" src="icons/downvote.svg">
+          <img tabindex="0" role="button" aria-label="Increase quality" class="upvote-button icon" src="icons/upvote.svg">
+          <img tabindex="0" role="button" aria-label="Decrease quality" class="downvote-button icon" src="icons/downvote.svg">
         </div>
         <p class="idea-quality-container">quality: <span class="idea-quality">swill</span></p>
       </div>  
