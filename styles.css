@@ -140,4 +140,7 @@ hr {
   .ideas-container {
     width: 80%;
   }
+  .icon {
+    height: 3.5vh;
+  }
 }
