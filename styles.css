@@ -1,26 +1,26 @@
 * {
-  font-family: 'Open Sans', sans-serif;
   color: #939598;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /*Font*/
 h1 {
-  font-family: 'Roboto Slab', serif;
-  font-weight: 700;
-  font-size: 8vh;
-  margin-top: 2vh;
-  margin-bottom: 3vh;
   color: #6d6e71;
+  font-family: 'Roboto Slab', serif;
+  font-size: 8vh;
+  font-weight: 700;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
 }
 h1 span {
   color: #00a79d;
 }
 h2 {
-  font-size: 3vh;
-  font-family: 'Roboto Slab', serif;
-  font-weight: 700;
   color: #6d6e71;
   display: inline-block;
+  font-family: 'Roboto Slab', serif;
+  font-size: 3vh;
+  font-weight: 700;
 }
 p {
   font-family: 'Open Sans', sans-serif;
@@ -30,39 +30,39 @@ p {
 
 /*Header*/
 header {
-  height: 40vh;
-  width: 100%;
+  align-items: center;
   background: #e5f3f2;
   display: flex;
-  align-items: center;
+  height: 40vh;
+  width: 100%;
 }
 .header-container {
+  align-items: center;
   display: flex;
-  width: 50%;
+  flex-direction: column;
   height: 36vh;
   margin: 0 auto;
-  align-items: center;
-  flex-direction: column;
+  width: 50%;
 }
 header button {
-  font-size: 3vh;
-  width: 100%;
-  height: 6vh;
-  border: none;
   background: #00a79d;
+  border: none;
   color: #fff;
+  font-size: 3vh;
+  height: 6vh;
+  width: 100%;
 }
 header button:hover {
   background: #045e55;
 }
 input {
-  width: 100%;
-  height: 5vh;
-  margin-bottom: 2vh;
-  padding: 2vh 2vh 2vh 1vh;
   border: 2px solid #ccc;
   box-sizing: border-box;
   font-size: 3vh;
+  height: 5vh;
+  margin-bottom: 2vh;
+  padding: 2vh 2vh 2vh 1vh;
+  width: 100%;
 }
 ::placeholder {
   color: #ccc;
@@ -71,8 +71,8 @@ input {
 
 /*Ideas List*/
 .ideas-container {
-  width: 50%;
   margin: 4vh auto;
+  width: 50%;
 }
 .ideas-container input {
   margin-bottom: 4vh;
@@ -84,10 +84,10 @@ input {
   margin-bottom: 20px;
 }
 hr {
-  height: 1px;
   background-color: #D1D3D4;
-  color: #D1D3D4;
   border: none;
+  color: #D1D3D4;
+  height: 1px;
 }
 .icon {
   height: 3vh;
@@ -102,8 +102,8 @@ hr {
   content: url('icons/delete-hover.svg');
 }
 .vote-container {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 .upvote-button {
   margin-right: 10%;
@@ -118,19 +118,19 @@ hr {
   content: url('icons/downvote-hover.svg');
 }
 .idea-quality-container {
-  font-family: 'Roboto Slab', serif;
   display: inline-block;
-  padding-top: 0;
+  font-family: 'Roboto Slab', serif;
   font-size: 2.5vh;
+  padding-top: 0;
 }
 .idea-quality {
   font-family: 'Open Sans', sans-serif;
 }
 .vote-buttons-container {
-    width: 60px;
     display: flex;
-    margin-right: 20px;
     justify-content: space-between;
+    margin-right: 20px;
+    width: 60px;
 }
 
 @media only screen and (max-width: 700px) {
