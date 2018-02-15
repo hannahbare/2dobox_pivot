@@ -13,11 +13,10 @@ $('.save-idea-button').on('click', function(event) {
 $('.idea-list').on('click', '.delete-button', deleteIdea);
 $('.idea-list').on('click', '.upvote-button', upvote);
 $('.idea-list').on('click', '.downvote-button', downvote);
+$('.idea-list').on('blur', 'h2', editTitleText);
+$('.idea-list').on('blur', 'p', editBodyText);
 
-$('.idea-list').on('keyup paste input', 'h2', editTitleText);
-$('.idea-list').on('keyup paste input', 'p', editBodyText);
-
-$(document).on('input', '.search-input', search);
+$(document).on('input', '.search-input', searchIdeas);
 $(window).on('load', function() {
   loadIdeaList();
   displayIdeas();
@@ -29,42 +28,9 @@ function createIdea() {
   prependIdea(ideaTitleInputValue, ideaBodyInputValue)
 }
 
-function editTitleText() {
-  var newText = $(this).text();
-  $(this).html(`<h2 contenteditable="true">${newText}</h2>`);
-  storeIdeaList();
-  setEndOfContenteditable(this);
-};
-
-function editBodyText() {
-  var newText = $(this).text();
-  $(this).html(`<p contenteditable="true">${newText}</p>`);
-  storeIdeaList();
-  setEndOfContenteditable(this);
-};
-
-function setEndOfContenteditable(contentEditableElement) {
-    var range,selection;
-    if(document.createRange) {
-        range = document.createRange();//Create a range (a range is a like the selection but invisible)
-        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
-        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-        selection = window.getSelection();//get the selection object (allows you to change selection)
-        selection.removeAllRanges();//remove any selections already made
-        selection.addRange(range);//make the range you have just created the visible selection
-    }
-    else if(document.selection)//IE 8 and lower
-    { 
-        range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
-        range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
-        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-        range.select();//Select the range (make it the visible selection
-    }
-};
-
 function prependIdea(title, body) {
   $('.idea-list').prepend(`
-    <div class="idea">
+    <div class="idea" >
       <h2 contenteditable="true">${title}</h2> 
       <img class="delete-button icon" src="icons/delete.svg">
       <p contenteditable="true">${body}</p>
@@ -117,7 +83,7 @@ function downvote() {
   storeIdeaList();
 };
 
-function search() {
+function searchIdeas() {
   var searchValue = $(this).val().toLowerCase();
   $(".idea-list .idea").filter(function() {
   $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
@@ -134,6 +100,16 @@ function displayIdeas() {
   $('.idea').removeAttr('style');
 }
 
+function editTitleText() {
+  var newText = $(this).text();
+  console.log($(this));
+  $(this).html(`${newText}`);
+  storeIdeaList();
+};
 
-
+function editBodyText() {
+  var newText = $(this).text();
+  $(this).html(`${newText}`);
+  storeIdeaList();
+};
 
