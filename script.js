@@ -1,24 +1,13 @@
-var $taskTitleInput = $('.task-title-input');
-var $taskBodyInput = $('.task-body-input');
-
-
 $('.save-btn').on('click', showAndStoreCard);
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
 $('.task-list').on('click', '.delete-button', deleteTask);
+$('.task-list').on('click', '.complete-btn', completeTask);
 $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
-$('.task-list').on('click', '.complete-btn', completeTask);
-
-function completeTask() {
-  $(this).parent().parent('.task-section').toggleClass('task-complete');
-  $(this).toggleClass('completed-task');
-  storeTaskList();
-  // $(this).nextAll('button') path to both btns. 
-}
 
 $(window).on('load', function() {
   loadTaskList();
@@ -40,8 +29,8 @@ function showAndStoreCard(event) {
 };
 
 function createTask() {
-  var taskTitleVal = $taskTitleInput.val();
-  var taskBodyVal = $taskBodyInput.val();
+  var taskTitleVal = $('.task-title-input').val();
+  var taskBodyVal = $('.task-body-input').val();
   var uniqueId = $.now();
   prependTask(taskTitleVal, taskBodyVal, uniqueId);
 }
@@ -73,15 +62,39 @@ function storeTaskList() {
   localStorage.setItem('storedTaskList', JSONTaskList);
   };
 
+
+
+
+
+
+
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
+  if($('task-section').attr('.complete-task')){ 
+    console.log('hey');
+    $(this).closest('.task-section').hide();
+  }
+
 };
+
+
+
+
+
+
 
 function deleteTask() {
   $(this).closest('.task-section').remove();
   storeTaskList();
+}
+
+function completeTask() {
+  $(this).parent().parent('.task-section').toggleClass('task-complete');
+  $(this).toggleClass('completed-task');
+  storeTaskList();
+  // $(this).nextAll('button') path to both btns. 
 }
 
 function upVote() {
@@ -107,14 +120,14 @@ function downVote() {
 function searchTask() {
   var searchValue = $(this).val().toLowerCase();
   $(".task").filter(function() {
-    var taskCard = $(this).parent(".task");
+    var taskCard = $(this).parent(".task-section");
     taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
 
 function clearInputs() {
-  $taskTitleInput.val('');
-  $taskBodyInput.val('');
+  $('.task-title-input').val('');
+  $('.task-body-input').val('');
 }
 
 function displayTask() {
