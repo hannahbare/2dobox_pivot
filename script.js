@@ -84,11 +84,6 @@ function upVote() {
   var genius = $(this).parentsUntil('.task').find('.task-quality').text('genius');
   ($qualityLevel === 'swill' ? plausible : genius);
   (genius ? next : next)
-  // if ($qualityLevel === 'swill') {
-  //   $(this).parentsUntil('.task').find('.task-quality').text('plausible');
-  // } else {
-  //   $(this).parentsUntil('.task').find('.task-quality').text('genius');
-  // }
   storeTaskList();
 }
 
