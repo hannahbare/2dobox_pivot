@@ -29,8 +29,8 @@ function showAndStoreCard(event) {
 };
 
 function createTask() {
-  var taskTitleVal = $taskTitleInput.val();
-  var taskBodyVal = $taskBodyInput.val();
+  var taskTitleVal = $('.task-title-input').val();
+  var taskBodyVal = $('.task-body-input').val();
   var uniqueId = $.now();
   prependTask(taskTitleVal, taskBodyVal, uniqueId);
 }
@@ -62,11 +62,28 @@ function storeTaskList() {
   localStorage.setItem('storedTaskList', JSONTaskList);
   };
 
+
+
+
+
+
+
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
+  if($('task-section').attr('.complete-task')){ 
+    console.log('hey');
+    $(this).closest('.task-section').hide();
+  }
+
 };
+
+
+
+
+
+
 
 function deleteTask() {
   $(this).closest('.task-section').remove();
@@ -109,8 +126,8 @@ function searchTask() {
 }
 
 function clearInputs() {
-  $taskTitleInput.val('');
-  $taskBodyInput.val('');
+  $('.task-title-input').val('');
+  $('.task-body-input').val('');
 }
 
 function displayTask() {
