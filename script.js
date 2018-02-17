@@ -36,7 +36,7 @@ function createIdea() {
 function prependIdea(title, body, uniqueId) {
   console.log('prepend idea')
   $('.idea-list').prepend(`
-    <div class="idea" id="${uniqueId}">
+    <article class="idea" id="${uniqueId}">
       <h2 aria-label="Idea title" contenteditable="true">${title}</h2> 
       <img tabindex="0" role="button" aria-label="Delete idea" class="delete-button icon" src="icons/delete.svg">
       <p aria-label="Idea body" contenteditable="true">${body}</p>
@@ -48,7 +48,7 @@ function prependIdea(title, body, uniqueId) {
         <p class="idea-quality-container">quality: <span class="idea-quality">swill</span></p>
       </div>  
       <hr>
-    </div>
+    </article>
     `);
 };
 
