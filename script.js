@@ -24,19 +24,19 @@ function showAndStoreCard(event) {
   clearInputs();
 };
 
-
 function createIdea() {
   console.log('create idea')
   var ideaTitleInputValue = $ideaTitleInput.val();
   var ideaBodyInputValue = $ideaBodyInput.val();
-  prependIdea(ideaTitleInputValue, ideaBodyInputValue)
+  var uniqueId = $.now();
+  prependIdea(ideaTitleInputValue, ideaBodyInputValue, uniqueId);
   // add unique id for each card.
 }
 
-function prependIdea(title, body) {
+function prependIdea(title, body, uniqueId) {
   console.log('prepend idea')
   $('.idea-list').prepend(`
-    <div class="idea" >
+    <div class="idea" id="${uniqueId}">
       <h2 aria-label="Idea title" contenteditable="true">${title}</h2> 
       <img tabindex="0" role="button" aria-label="Delete idea" class="delete-button icon" src="icons/delete.svg">
       <p aria-label="Idea body" contenteditable="true">${body}</p>
