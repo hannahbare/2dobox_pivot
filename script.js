@@ -1,47 +1,43 @@
-var $ideaTitleInput = $('.idea-title-input');
-var $ideaBodyInput = $('.idea-body-input');
-var $upvoteButton = $('.upvote-button');
-var $downvoteButton = $('.downvote-button');
+var $taskTitleInput = $('.task-title-input');
+var $taskBodyInput = $('.task-body-input');
 
-$('.save-idea-button').on('click', showAndStoreCard);
-$('.idea-list').on('click', '.delete-button', deleteIdea);
-$('.idea-list').on('click', '.upvote-button', upvote);
-$('.idea-list').on('click', '.downvote-button', downvote);
-$('.idea-list').on('blur', 'h2', editTitleText);
-$('.idea-list').on('blur', 'p', editBodyText);
-$('.search-input').on('input', searchIdeas);
+
+$('.save-btn').on('click', showAndStoreCard);
+$('.task-list').on('click', '.delete-button', deleteTask);
+$('.task-list').on('click', '.upvote-button', upVote);
+$('.task-list').on('click', '.downvote-button', downVote);
+$('.task-list').on('blur', 'h2', editTitleText);
+$('.task-list').on('blur', 'p', editBodyText);
+$('.search-input').on('input', searchTask);
 
 $(window).on('load', function() {
-  loadIdeaList();
-  displayIdeas();
+  loadTaskList();
+  displayTask();
 });
 
 function showAndStoreCard(event) {
   event.preventDefault();
-  console.log('save idea function')
-  createIdea();
-  storeIdeaList();
+  createTask();
+  storeTaskList();
   clearInputs();
 };
 
-function createIdea() {
-  console.log('create idea')
-  var ideaTitleInputValue = $ideaTitleInput.val();
-  var ideaBodyInputValue = $ideaBodyInput.val();
+function createTask() {
+  var taskTitleVal = $taskTitleInput.val();
+  var taskBodyVal = $taskBodyInput.val();
   var uniqueId = $.now();
-  prependIdea(ideaTitleInputValue, ideaBodyInputValue, uniqueId);
-  // add unique id for each card.
+  prependTask(taskTitleVal, taskBodyVal, uniqueId);
 }
 
-function prependIdea(title, body, uniqueId) {
-  console.log('prepend idea')
-  $('.idea-list').prepend(`
-    <article class="idea" id="${uniqueId}">
+function prependTask(title, body, uniqueId) {
+  console.log('prepend task')
+  $('.task-list').prepend(`
+    <article class="task" id="${uniqueId}">
       <section class="task">
-        <h2 class="card__title" aria-label="Idea title" contenteditable="true">${title}</h2> 
+        <h2 class="card__title" aria-label="task title" contenteditable>${title}</h2> 
 
-        <img tabindex="0" role="button" aria-label="Delete idea" class="delete-button icon" src="icons/delete.svg">
-        <p class="card__body" aria-label="Idea body" contenteditable="true">${body}</p>
+        <img tabindex="0" role="button" aria-label="Delete task" class="delete-button icon" src="icons/delete.svg">
+        <p class="card__body" aria-label="task body" contenteditable>${body}</p>
       </section>
 
       <section class="vote-container">
@@ -49,82 +45,80 @@ function prependIdea(title, body, uniqueId) {
           <img tabindex="0" role="button" aria-label="Increase quality" class="upvote-button icon" src="icons/upvote.svg">
           <img tabindex="0" role="button" aria-label="Decrease quality" class="downvote-button icon" src="icons/downvote.svg">
         </div>
-        <p class="idea-quality-container">quality: <span class="idea-quality">swill</span></p>
+        <p class="task-quality-container">quality: <span class="task-quality">swill</span></p>
       </section>  
       <hr>
     </article>
     `);
 };
 
-function storeIdeaList() {
-  console.log('store idea list')
-  var ideaList = $('.idea-list').html();
-  var JSONIdeaList = JSON.stringify(ideaList);
-  localStorage.setItem('storedIdeaList', JSONIdeaList);
+function storeTaskList() {
+  var taskList = $('.task-list').html();
+  var JSONTaskList = JSON.stringify(taskList);
+  localStorage.setItem('storedTaskList', JSONTaskList);
   };
 
-function loadIdeaList() {
-  console.log('load idea list')
-  var retrievedIdeaList = localStorage.getItem('storedIdeaList');
-  var parsedIdeaList = JSON.parse(retrievedIdeaList);
-  $('.idea-list').prepend(parsedIdeaList);
+function loadTaskList() {
+  var retrievedTaskList = localStorage.getItem('storedTaskList');
+  var parsedTaskList = JSON.parse(retrievedTaskList);
+  $('.task-list').prepend(parsedTaskList);
 };
 
-function deleteIdea() {
-  $(this).closest('.idea').remove();
-  storeIdeaList();
+function deleteTask() {
+  $(this).closest('.task').remove();
+  storeTaskList();
 }
 
-function upvote() {
+function upVote() {
   console.log('upvote')
-  var $qualityLevel = $(this).parentsUntil('.idea').find('.idea-quality').text();
+  var $qualityLevel = $(this).parentsUntil('.task').find('.task-quality').text();
   if ($qualityLevel === 'swill') {
-    $(this).parentsUntil('.idea').find('.idea-quality').text('plausible');
+    $(this).parentsUntil('.task').find('.task-quality').text('plausible');
   } else {
-    $(this).parentsUntil('.idea').find('.idea-quality').text('genius');
+    $(this).parentsUntil('.task').find('.task-quality').text('genius');
   }
-  storeIdeaList();
+  storeTaskList();
 }
 
-function downvote() {
+function downVote() {
   console.log('downvote')
-  var $qualityLevel = $(this).parentsUntil('.idea').find('.idea-quality').text();
+  var $qualityLevel = $(this).parentsUntil('.task').find('.task-quality').text();
   if ($qualityLevel === 'genius') {
-    $(this).parentsUntil('.idea').find('.idea-quality').text('plausible');
+    $(this).parentsUntil('.task').find('.task-quality').text('plausible');
   } else {
-    $(this).parentsUntil('.idea').find('.idea-quality').text('swill');
+    $(this).parentsUntil('.task').find('.task-quality').text('swill');
   }
-  storeIdeaList();
+  storeTaskList();
 };
 
-function searchIdeas() {
+function searchTask() {
   var searchValue = $(this).val().toLowerCase();
   $(".task").filter(function() {
-    var taskCard = $(this).parent(".idea");
+    var taskCard = $(this).parent(".task");
     taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
 
 function clearInputs() {
-  $ideaTitleInput.val('');
-  $ideaBodyInput.val('');
+  $taskTitleInput.val('');
+  $taskBodyInput.val('');
 }
 
-function displayIdeas() {
-  console.log('display ideas')
-  $('.idea').removeAttr('style');
+function displayTask() {
+  console.log('display tasks')
+  $('.task').removeAttr('style');
   // wtf?
 }
 
 function editTitleText() {
   var newText = $(this).text();
   $(this).html(`${newText}`);
-  storeIdeaList();
+  storeTaskList();
 };
 
 function editBodyText() {
   var newText = $(this).text();
   $(this).html(`${newText}`);
-  storeIdeaList();
+  storeTaskList();
 };
 

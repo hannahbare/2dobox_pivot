@@ -3,6 +3,10 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 /*Font*/
 h1 {
   color: #6d6e71;
@@ -69,18 +73,18 @@ input {
   font-size: 3vh;
 }
 
-/*Ideas List*/
-.ideas-container {
+/*tasks List*/
+.task-area {
   margin: 4vh auto;
   width: 50%;
 }
-.ideas-container input {
+.task-area input {
   margin-bottom: 4vh;
 }
-#new-idea-form {
+#new-task-form {
   width: 100%;
 }
-.idea {
+.task {
   margin-bottom: 20px;
 }
 hr {
@@ -117,13 +121,13 @@ hr {
 .downvote-button:hover {
   content: url('icons/downvote-hover.svg');
 }
-.idea-quality-container {
+.task-quality-container {
   display: inline-block;
   font-family: 'Roboto Slab', serif;
   font-size: 2.5vh;
   padding-top: 0;
 }
-.idea-quality {
+.task-quality {
   font-family: 'Open Sans', sans-serif;
 }
 .vote-buttons-container {
@@ -137,7 +141,7 @@ hr {
   .header-container {
     width: 80%;
   }
-  .ideas-container {
+  .task-area {
     width: 80%;
   }
   .icon {
