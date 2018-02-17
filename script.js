@@ -70,13 +70,16 @@ function deleteTask() {
 }
 
 function upVote() {
-  console.log('upvote')
   var $qualityLevel = $(this).parentsUntil('.task').find('.task-quality').text();
-  if ($qualityLevel === 'swill') {
-    $(this).parentsUntil('.task').find('.task-quality').text('plausible');
-  } else {
-    $(this).parentsUntil('.task').find('.task-quality').text('genius');
-  }
+  var plausible = $(this).parentsUntil('.task').find('.task-quality').text('plausible');
+  var genius = $(this).parentsUntil('.task').find('.task-quality').text('genius');
+  ($qualityLevel === 'swill' ? plausible : genius);
+  (genius ? next : next)
+  // if ($qualityLevel === 'swill') {
+  //   $(this).parentsUntil('.task').find('.task-quality').text('plausible');
+  // } else {
+  //   $(this).parentsUntil('.task').find('.task-quality').text('genius');
+  // }
   storeTaskList();
 }
 
