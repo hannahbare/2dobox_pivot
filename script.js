@@ -37,9 +37,13 @@ function prependIdea(title, body, uniqueId) {
   console.log('prepend idea')
   $('.idea-list').prepend(`
     <article class="idea" id="${uniqueId}">
-      <h2 aria-label="Idea title" contenteditable="true">${title}</h2> 
-      <img tabindex="0" role="button" aria-label="Delete idea" class="delete-button icon" src="icons/delete.svg">
-      <p aria-label="Idea body" contenteditable="true">${body}</p>
+      <section class="task">
+        <h2 class="card__title" aria-label="Idea title" contenteditable="true">${title}</h2> 
+
+        <img tabindex="0" role="button" aria-label="Delete idea" class="delete-button icon" src="icons/delete.svg">
+        <p class="card__body" aria-label="Idea body" contenteditable="true">${body}</p>
+      </section>
+
       <section class="vote-container">
         <div class="vote-buttons-container">
           <img tabindex="0" role="button" aria-label="Increase quality" class="upvote-button icon" src="icons/upvote.svg">
@@ -95,13 +99,9 @@ function downvote() {
 
 function searchIdeas() {
   var searchValue = $(this).val().toLowerCase();
-  //  this = search value
-  $(".idea-list .idea").filter(function() {
-  $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
-  // this card,    this text of article
-  // make this readable!!!!! 
-  // check -1 
-  console.log('search ideas', this)
+  $(".task").filter(function() {
+    var taskCard = $(this).parent(".idea");
+    taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
 
