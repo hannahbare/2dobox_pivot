@@ -20,7 +20,7 @@ $(window).on('load', function() {
 function enableBtn(){
   var $titleInput = $('.task-title-input');
   var $bodyInput = $('.task-body-input');
-  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled') : $('.save-btn').attr('disabled'))  
+  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled', false) : $('.save-btn').attr('disabled', true));
 }
 
 function showAndStoreCard(event) {
@@ -28,6 +28,7 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
+  $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
