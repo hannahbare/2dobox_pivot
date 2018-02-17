@@ -10,7 +10,15 @@ $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
-$('.search-input').on('input', searchTask);
+$('.filter-input').on('input', searchTask);
+$('.task-list').on('click', '.complete-btn', completeTask);
+
+function completeTask() {
+  $(this).parent().parent('.task-section').toggleClass('task-complete');
+  $(this).toggleClass('completed-task');
+  storeTaskList();
+  // $(this).nextAll('button') path to both btns. 
+}
 
 $(window).on('load', function() {
   loadTaskList();
@@ -20,7 +28,7 @@ $(window).on('load', function() {
 function enableBtn(){
   var $titleInput = $('.task-title-input');
   var $bodyInput = $('.task-body-input');
-  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled') : $('.save-btn').attr('disabled'))  
+  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled', false) : $('.save-btn').attr('disabled', true));
 }
 
 function showAndStoreCard(event) {
@@ -28,6 +36,7 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
+  $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
@@ -36,24 +45,22 @@ function createTask() {
   var uniqueId = $.now();
   prependTask(taskTitleVal, taskBodyVal, uniqueId);
 }
-
+        
 function prependTask(title, body, uniqueId) {
   console.log('prepend task')
   $('.task-list').prepend(`
-    <article class="task" id="${uniqueId}">
+    <article class="task-section" id="${uniqueId}">
       <section class="task">
         <h2 class="card__title" aria-label="task title" contenteditable>${title}</h2> 
-
-        <img tabindex="0" role="button" aria-label="Delete task" class="delete-button icon" src="icons/delete.svg">
+        <button aria-label="Delete task" class="delete-button icon" alt="delete the task">
+        </button>
         <p class="card__body" aria-label="task body" contenteditable>${body}</p>
       </section>
-
       <section class="vote-container">
-        <div class="vote-buttons-container">
-          <img tabindex="0" role="button" aria-label="Increase quality" class="upvote-button icon" src="icons/upvote.svg">
-          <img tabindex="0" role="button" aria-label="Decrease quality" class="downvote-button icon" src="icons/downvote.svg">
-        </div>
-        <p class="task-quality-container">quality: <span class="task-quality">swill</span></p>
+        <button class="complete-btn icon" alt="make task completed or not" ></button>
+        <button aria-label="Increase importance" class="upvote-button icon" alt="upvote the "></button>
+        <button aria-label="Decrease importance" class="downvote-button icon"></button>
+        <p class="task-importance-container">importance: <span class="task-importance">swill</span></p>
       </section>  
       <hr>
     </article>
@@ -73,31 +80,26 @@ function loadTaskList() {
 };
 
 function deleteTask() {
-  $(this).closest('.task').remove();
+  $(this).closest('.task-section').remove();
   storeTaskList();
 }
 
 function upVote() {
-  var $qualityLevel = $(this).parentsUntil('.task').find('.task-quality').text();
-  var plausible = $(this).parentsUntil('.task').find('.task-quality').text('plausible');
-  var genius = $(this).parentsUntil('.task').find('.task-quality').text('genius');
-  ($qualityLevel === 'swill' ? plausible : genius);
+  var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
+  var plausible = $(this).parentsUntil('.task').find('.task-importance').text('plausible');
+  var genius = $(this).parentsUntil('.task').find('.task-importance').text('genius');
+  ($importanceLevel === 'swill' ? plausible : genius);
   (genius ? next : next)
-  // if ($qualityLevel === 'swill') {
-  //   $(this).parentsUntil('.task').find('.task-quality').text('plausible');
-  // } else {
-  //   $(this).parentsUntil('.task').find('.task-quality').text('genius');
-  // }
   storeTaskList();
 }
 
 function downVote() {
   console.log('downvote')
-  var $qualityLevel = $(this).parentsUntil('.task').find('.task-quality').text();
-  if ($qualityLevel === 'genius') {
-    $(this).parentsUntil('.task').find('.task-quality').text('plausible');
+  var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
+  if ($importanceLevel === 'genius') {
+    $(this).parentsUntil('.task').find('.task-importance').text('plausible');
   } else {
-    $(this).parentsUntil('.task').find('.task-quality').text('swill');
+    $(this).parentsUntil('.task').find('.task-importance').text('swill');
   }
   storeTaskList();
 };
