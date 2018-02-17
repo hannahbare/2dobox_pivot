@@ -1,24 +1,13 @@
-var $taskTitleInput = $('.task-title-input');
-var $taskBodyInput = $('.task-body-input');
-
-
 $('.save-btn').on('click', showAndStoreCard);
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
 $('.task-list').on('click', '.delete-button', deleteTask);
+$('.task-list').on('click', '.complete-btn', completeTask);
 $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
-$('.task-list').on('click', '.complete-btn', completeTask);
-
-function completeTask() {
-  $(this).parent().parent('.task-section').toggleClass('task-complete');
-  $(this).toggleClass('completed-task');
-  storeTaskList();
-  // $(this).nextAll('button') path to both btns. 
-}
 
 $(window).on('load', function() {
   loadTaskList();
@@ -82,6 +71,13 @@ function loadTaskList() {
 function deleteTask() {
   $(this).closest('.task-section').remove();
   storeTaskList();
+}
+
+function completeTask() {
+  $(this).parent().parent('.task-section').toggleClass('task-complete');
+  $(this).toggleClass('completed-task');
+  storeTaskList();
+  // $(this).nextAll('button') path to both btns. 
 }
 
 function upVote() {
