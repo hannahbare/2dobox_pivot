@@ -107,7 +107,7 @@ function downVote() {
 function searchTask() {
   var searchValue = $(this).val().toLowerCase();
   $(".task").filter(function() {
-    var taskCard = $(this).parent(".task");
+    var taskCard = $(this).parent(".task-section");
     taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
