@@ -3,6 +3,8 @@ var $taskBodyInput = $('.task-body-input');
 
 
 $('.save-btn').on('click', showAndStoreCard);
+$('.task-title-input').on('keyup', enableBtn);
+$('.task-body-input').on('keyup', enableBtn);
 $('.task-list').on('click', '.delete-button', deleteTask);
 $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
@@ -14,6 +16,12 @@ $(window).on('load', function() {
   loadTaskList();
   displayTask();
 });
+
+function enableBtn(){
+  var $titleInput = $('.task-title-input');
+  var $bodyInput = $('.task-body-input');
+  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled') : $('.save-btn').attr('disabled'))  
+}
 
 function showAndStoreCard(event) {
   event.preventDefault();
