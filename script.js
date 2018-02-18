@@ -25,7 +25,7 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
-  $('.save-btn').prop('disabled', true);
+  // $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
@@ -72,11 +72,7 @@ function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
-  if($('task-section').attr('.complete-task')){ 
-    console.log('hey');
-    $(this).closest('.task-section').hide();
-  }
-
+  $('.task-list').find('.task-complete').hide();
 };
 
 
