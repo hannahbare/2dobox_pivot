@@ -8,6 +8,7 @@ $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
+$('.show-complete-btn').on('click', showCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
@@ -75,7 +76,10 @@ function loadTaskList() {
   $('.task-list').find('.task-complete').hide();
 };
 
-
+function showCompleted(e) {
+  e.preventDefault();
+  $('.task-list').find('.task-complete').show();
+}
 
 
 
