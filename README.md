@@ -1,1 +1,2 @@
-# idea-box
+# Turn idea-box into 2DoBox
+
