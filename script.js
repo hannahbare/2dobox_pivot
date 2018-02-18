@@ -8,6 +8,7 @@ $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
+$('.show-complete-btn').on('click', showCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
@@ -25,7 +26,7 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
-  $('.save-btn').prop('disabled', true);
+  // $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
@@ -72,14 +73,13 @@ function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
-  if($('task-section').attr('.complete-task')){ 
-    console.log('hey');
-    $(this).closest('.task-section').hide();
-  }
-
+  $('.task-list').find('.task-complete').hide();
 };
 
-
+function showCompleted(e) {
+  e.preventDefault();
+  $('.task-list').find('.task-complete').show();
+}
 
 
 
