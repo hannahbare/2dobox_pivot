@@ -36,7 +36,6 @@ function createTask() {
 }
         
 function prependTask(title, body, uniqueId) {
-  // console.log('prepend task')
   $('.task-list').prepend(`
     <article class="task-section" id="${uniqueId}">
       <section class="task">
@@ -53,7 +52,7 @@ function prependTask(title, body, uniqueId) {
       </section>  
       <hr>
     </article>
-    `);
+  `);
 };
 
 function storeTaskList() {
@@ -61,6 +60,14 @@ function storeTaskList() {
   var JSONTaskList = JSON.stringify(taskList);
   localStorage.setItem('storedTaskList', JSONTaskList);
 };
+
+// function storeTaskList() {
+//   var taskKey = $('.task-section').attr('id');
+//   var taskArticle = $('.task-section').html();
+//   var JSONTaskList = JSON.stringify(taskArticle);
+//   localStorage.setItem(taskKey, JSONTaskList);
+// };
+  //now allows for each article to be stored individually------------------ JUST CHANGED. MAY NEED TO REVERT BACK TO OLDER CODE
 
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
@@ -71,8 +78,7 @@ function loadTaskList() {
 };
 
 function showTenTask(parsedTaskList) {
-    var filter = $('.task-list').filter( ".task" )
-    .css('display', 'none' )
+    var filter = $('.task-list').filter( ".task" );
 }
 
 function toggleCompleted(e) {
@@ -90,7 +96,7 @@ function completeTask() {
   $(this).parent().parent('.task-section').toggleClass('task-complete');
   $(this).toggleClass('completed-task');
   storeTaskList();
-  // $(this).nextAll('button') path to both btns. 
+  // $(this).nextAll('button') path to both btns.-------- future code: DISABLES up & downvote btns
 }
 
 
@@ -149,3 +155,18 @@ function editBodyText() {
   storeTaskList();
 };
 
+
+//IDEAS FOR HAVING 10 CARDS ON THE PAGE
+// for each card that is created, we need to have a counter-- and also push that individual card into an array, and then the rest of the cards, push into anothe
+
+
+
+
+//OPTIONS FOR MOVING FORWARD-- UNIQUE IDS VS. FULL HTML IN STORAGE:
+//1. continuing on with unique keys for local storage: need to grab id and parse card and then change importance level
+//---- create more single responsibility functions to parse, evaluate, stringify cards
+//2. REVERTING: using task-list html and counting the number of ids for up to 10 cards on the page
+ 
+
+//OPTIONS FOR MAKING UPVOTE/DOWNVOTE BTNS SMALLER:
+//1. make an array out of the low/high
