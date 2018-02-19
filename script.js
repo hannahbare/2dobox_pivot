@@ -12,7 +12,6 @@ $('.show-complete-btn').on('click', toggleCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
-  // displayTask();
 });
 
 function enableBtn(){
@@ -72,9 +71,7 @@ function loadTaskList() {
 };
 
 function showTenTask(parsedTaskList) {
-    var filter = $('.task-list').filter( ".task" )
-    .css('display', 'none' )
-  console.log(parsedTaskList, parsedTaskList.length, filter, 'html: ', HTMLCollection.length)
+  console.log( 'html: ', HTMLCollection.length)
 
 }
 
@@ -96,22 +93,37 @@ function completeTask() {
   // $(this).nextAll('button') path to both btns. 
 }
 
+
 function upVote() {
-  var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
-  var plausible = $(this).parentsUntil('.task').find('.task-importance').text('plausible');
-  var genius = $(this).parentsUntil('.task').find('.task-importance').text('genius');
-  ($importanceLevel === 'swill' ? plausible : genius);
-  (genius ? next : next)
+  console.log('upvote')
+  var $qualityLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
+  if ($qualityLevel === 'swill') {
+    $(this).parentsUntil('.task-section').find('.task-importance').text('plausible');
+  } else {
+    $(this).parentsUntil('.task-section').find('.task-importance').text('genius');
+  }
   storeTaskList();
 }
 
+
+
+// function upVote() {
+
+//   var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
+//   var plausible = $(this).parentsUntil('.task').find('.task-importance').text('plausible');
+//   var genius = $(this).parentsUntil('.task').find('.task-importance').text('genius');
+//   ($importanceLevel === 'swill' ? plausible : genius);
+//   (genius ? next : next)
+//   storeTaskList();
+// }
+
 function downVote() {
   console.log('downvote')
-  var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
+  var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
   if ($importanceLevel === 'genius') {
-    $(this).parentsUntil('.task').find('.task-importance').text('plausible');
+    $(this).parentsUntil('.task-section').find('.task-importance').text('plausible');
   } else {
-    $(this).parentsUntil('.task').find('.task-importance').text('swill');
+    $(this).parentsUntil('.task-section').find('.task-importance').text('swill');
   }
   storeTaskList();
 };
@@ -143,8 +155,3 @@ function editBodyText() {
   storeTaskList();
 };
 
-// function displayTask() {
-//   console.log('display tasks')
-//   $('.task').removeAttr('style');
-//   // wtf?
-// }
