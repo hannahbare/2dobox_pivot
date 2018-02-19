@@ -63,12 +63,6 @@ function storeTaskList() {
   localStorage.setItem('storedTaskList', JSONTaskList);
   };
 
-
-
-
-
-
-
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
@@ -78,12 +72,8 @@ function loadTaskList() {
 
 function showCompleted(e) {
   e.preventDefault();
-  $('.task-list').find('.task-complete').show();
+  $('.task-list').find('.task-complete').toggle();
 }
-
-
-
-
 
 function deleteTask() {
   $(this).closest('.task-section').remove();
