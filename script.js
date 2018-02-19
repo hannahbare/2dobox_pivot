@@ -8,7 +8,8 @@ $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
-$('.show-complete-btn').on('click', toggleCompleted)
+$('.show-complete-btn').on('click', toggleCompleted);
+$('.critical-btn').on('click', filterCriticalTasks);
 
 $(window).on('load', function() {
   loadTaskList();
@@ -55,6 +56,7 @@ function prependTask(title, body, uniqueId) {
   `);
 };
 
+//WORKS BUT MAYBE NOT FOR UNIQUE IDS?
 function storeTaskList() {
   var taskList = $('.task-list').html();
   var JSONTaskList = JSON.stringify(taskList);
@@ -77,6 +79,7 @@ function loadTaskList() {
   showTenTask(parsedTaskList)
 };
 
+//DOESN"T WORK YET
 function showTenTask(parsedTaskList) {
     var filter = $('.task-list').filter( ".task" );
 }
@@ -87,18 +90,29 @@ function toggleCompleted(e) {
   $('.task-list').prepend($task);
 }
 
+//NOT WORKING YET
+function filterCriticalTasks(e){
+  e.preventDefault();
+  var importanceLevel = $('.task-list').find('.task-importance').text();
+  console.log(importanceLevel);
+  if(importanceLevel === 'critical'){
+    $('.task-list').parents('.task-section').show();
+  } else {
+    $('.task-list').parents('.task-section').hide();
+  }
+}
+
 function deleteTask() {
   $(this).closest('.task-section').remove();
   storeTaskList();
 }
 
+// $(this).nextAll('button') path to both btns.-------- future code: DISABLES up & downvote btns
 function completeTask() {
   $(this).parent().parent('.task-section').toggleClass('task-complete');
   $(this).toggleClass('completed-task');
   storeTaskList();
-  // $(this).nextAll('button') path to both btns.-------- future code: DISABLES up & downvote btns
 }
-
 
 function upVote() {
   var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
@@ -136,13 +150,6 @@ function searchTask() {
   });
 }
 
-function clearInputs() {
-  $('.task-title-input').val('');
-  $('.task-body-input').val('');
-  $('.task-title-input').focus();
-  $('.save-btn').prop('disabled', true);
-}
-
 function editTitleText() {
   var newText = $(this).text();
   $(this).html(`${newText}`);
@@ -154,6 +161,13 @@ function editBodyText() {
   $(this).html(`${newText}`);
   storeTaskList();
 };
+
+function clearInputs() {
+  $('.task-title-input').val('');
+  $('.task-body-input').val('');
+  $('.task-title-input').focus();
+  $('.save-btn').prop('disabled', true);
+}
 
 
 //IDEAS FOR HAVING 10 CARDS ON THE PAGE
