@@ -56,12 +56,18 @@ function prependTask(title, body, uniqueId) {
 };
 
 function storeTaskList() {
-  var taskKey = $('.task-section').attr('id');
-  var taskArticle = $('.task-section').html();
-  var JSONTaskList = JSON.stringify(taskArticle);
-  localStorage.setItem(taskKey, JSONTaskList);
-  //now allows for each article to be stored individually------------------ JUST CHANGED. MAY NEED TO REVERT BACK TO OLDER CODE
+  var taskList = $('.task-list').html();
+  var JSONTaskList = JSON.stringify(taskList);
+  localStorage.setItem('storedTaskList', JSONTaskList);
 };
+
+// function storeTaskList() {
+//   var taskKey = $('.task-section').attr('id');
+//   var taskArticle = $('.task-section').html();
+//   var JSONTaskList = JSON.stringify(taskArticle);
+//   localStorage.setItem(taskKey, JSONTaskList);
+// };
+  //now allows for each article to be stored individually------------------ JUST CHANGED. MAY NEED TO REVERT BACK TO OLDER CODE
 
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
@@ -73,7 +79,6 @@ function loadTaskList() {
 
 function showTenTask(parsedTaskList) {
     var filter = $('.task-list').filter( ".task" );
-    
 }
 
 function toggleCompleted(e) {
@@ -149,11 +154,6 @@ function editBodyText() {
   $(this).html(`${newText}`);
   storeTaskList();
 };
-
-function 
-for (i = 0; i < 11; i++)
-$('.task-list').find('.task-section')[i];
-}
 
 
 //IDEAS FOR HAVING 10 CARDS ON THE PAGE
