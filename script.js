@@ -1,24 +1,14 @@
-var $taskTitleInput = $('.task-title-input');
-var $taskBodyInput = $('.task-body-input');
-
-
 $('.save-btn').on('click', showAndStoreCard);
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
 $('.task-list').on('click', '.delete-button', deleteTask);
+$('.task-list').on('click', '.complete-btn', completeTask);
 $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
-$('.task-list').on('click', '.complete-btn', toggleCompleteTask);
-
-function completeTask() {
-  $(this).parent().parent('.task-section').toggleClass('task-complete');
-  $(this).toggleClass('completed-task');
-  storeTaskList();
-  // $(this).nextAll('button') path to both btns. 
-}
+$('.show-complete-btn').on('click', toggleCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
@@ -36,12 +26,12 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
-  $('.save-btn').prop('disabled', true);
+  // $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
-  var taskTitleVal = $taskTitleInput.val();
-  var taskBodyVal = $taskBodyInput.val();
+  var taskTitleVal = $('.task-title-input').val();
+  var taskBodyVal = $('.task-body-input').val();
   var uniqueId = $.now();
   prependTask(taskTitleVal, taskBodyVal, uniqueId);
 }
@@ -77,11 +67,24 @@ function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
+  $('.task-list').find('.task-complete').hide();
 };
+
+function toggleCompleted(e) {
+  e.preventDefault();
+  $('.task-list').find('.task-complete').toggle();
+}
 
 function deleteTask() {
   $(this).closest('.task-section').remove();
   storeTaskList();
+}
+
+function completeTask() {
+  $(this).parent().parent('.task-section').toggleClass('task-complete');
+  $(this).toggleClass('completed-task');
+  storeTaskList();
+  // $(this).nextAll('button') path to both btns. 
 }
 
 function upVote() {
@@ -107,14 +110,14 @@ function downVote() {
 function searchTask() {
   var searchValue = $(this).val().toLowerCase();
   $(".task").filter(function() {
-    var taskCard = $(this).parent(".task");
+    var taskCard = $(this).parent(".task-section");
     taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
 
 function clearInputs() {
-  $taskTitleInput.val('');
-  $taskBodyInput.val('');
+  $('.task-title-input').val('');
+  $('.task-body-input').val('');
 }
 
 function displayTask() {
@@ -135,7 +138,3 @@ function editBodyText() {
   storeTaskList();
 };
 
-function toggleCompleteTask(e) {
-  e.preventDefault();
-  $('.task-list').find('.task-complete').toggle();
-}
