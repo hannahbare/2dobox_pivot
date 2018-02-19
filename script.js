@@ -11,7 +11,7 @@ $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
-$('.task-list').on('click', '.complete-btn', completeTask);
+$('.task-list').on('click', '.complete-btn', toggleCompleteTask);
 
 function completeTask() {
   $(this).parent().parent('.task-section').toggleClass('task-complete');
@@ -135,3 +135,7 @@ function editBodyText() {
   storeTaskList();
 };
 
+function toggleCompleteTask(e) {
+  e.preventDefault();
+  $('.task-list').find('.task-complete').toggle();
+}
