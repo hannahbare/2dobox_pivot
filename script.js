@@ -1,14 +1,24 @@
+var $taskTitleInput = $('.task-title-input');
+var $taskBodyInput = $('.task-body-input');
+
+
 $('.save-btn').on('click', showAndStoreCard);
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
 $('.task-list').on('click', '.delete-button', deleteTask);
-$('.task-list').on('click', '.complete-btn', completeTask);
 $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
 $('.filter-input').on('input', searchTask);
-$('.show-complete-btn').on('click', showCompleted)
+$('.task-list').on('click', '.complete-btn', completeTask);
+
+function completeTask() {
+  $(this).parent().parent('.task-section').toggleClass('task-complete');
+  $(this).toggleClass('completed-task');
+  storeTaskList();
+  // $(this).nextAll('button') path to both btns. 
+}
 
 $(window).on('load', function() {
   loadTaskList();
@@ -26,12 +36,12 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
-  // $('.save-btn').prop('disabled', true);
+  $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
-  var taskTitleVal = $('.task-title-input').val();
-  var taskBodyVal = $('.task-body-input').val();
+  var taskTitleVal = $taskTitleInput.val();
+  var taskBodyVal = $taskBodyInput.val();
   var uniqueId = $.now();
   prependTask(taskTitleVal, taskBodyVal, uniqueId);
 }
@@ -63,38 +73,15 @@ function storeTaskList() {
   localStorage.setItem('storedTaskList', JSONTaskList);
   };
 
-
-
-
-
-
-
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
-  $('.task-list').find('.task-complete').hide();
 };
-
-function showCompleted(e) {
-  e.preventDefault();
-  $('.task-list').find('.task-complete').show();
-}
-
-
-
-
 
 function deleteTask() {
   $(this).closest('.task-section').remove();
   storeTaskList();
-}
-
-function completeTask() {
-  $(this).parent().parent('.task-section').toggleClass('task-complete');
-  $(this).toggleClass('completed-task');
-  storeTaskList();
-  // $(this).nextAll('button') path to both btns. 
 }
 
 function upVote() {
@@ -120,14 +107,14 @@ function downVote() {
 function searchTask() {
   var searchValue = $(this).val().toLowerCase();
   $(".task").filter(function() {
-    var taskCard = $(this).parent(".task-section");
+    var taskCard = $(this).parent(".task");
     taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
 
 function clearInputs() {
-  $('.task-title-input').val('');
-  $('.task-body-input').val('');
+  $taskTitleInput.val('');
+  $taskBodyInput.val('');
 }
 
 function displayTask() {
