@@ -95,30 +95,28 @@ function completeTask() {
 
 
 function upVote() {
-  console.log('upvote')
   var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
   if ($importanceLevel === 'none') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('low');
-  } else if ($importanceLevel === 'low'){
+  } else if ($importanceLevel === 'low') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('normal');
   } else if ($importanceLevel === 'normal') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('high');
-  } else if ($importanceLevel === 'high'){
+  } else if ($importanceLevel === 'high') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('critical');
   }
   storeTaskList();
 }
 
 function downVote() {
-  console.log('downvote')
   var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
   if ($importanceLevel === 'critical') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('high');
-  } else if ($importanceLevel === 'high'){
+  } else if ($importanceLevel === 'high') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('normal');
   } else if ($importanceLevel === 'normal') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('low');
-  } else if ($importanceLevel === 'low'){
+  } else if ($importanceLevel === 'low') {
     $(this).parentsUntil('.task-section').find('.task-importance').text('none');
   }
   storeTaskList();
