@@ -12,7 +12,6 @@ $('.show-complete-btn').on('click', toggleCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
-  // displayTask();
 });
 
 function enableBtn(){
@@ -74,8 +73,6 @@ function loadTaskList() {
 function showTenTask(parsedTaskList) {
     var filter = $('.task-list').filter( ".task" )
     .css('display', 'none' )
-  // console.log(parsedTaskList, parsedTaskList.length, filter, 'html: ', HTMLCollection.length)
-
 }
 
 function toggleCompleted(e) {
@@ -96,42 +93,39 @@ function completeTask() {
   // $(this).nextAll('button') path to both btns. 
 }
 
+
 function upVote() {
-
-  var level = $(this).siblings('p').children('.task-importance').text();
-  //current importance level-- normal. very specific to card: returns normal
-  var $importanceLevel = $(this).closest().parent('.task').find('.task-importance').text();
-  //
-
-  console.log($importanceLevel);
-
-  // if ($importancelevel === 'none') {
-  //   level.text('low');
-  // } else if ($importancelevel === 'low') {
-  //   level.text('normal');
-  // } else if ($importancelevel === 'normal') {
-  //   level.text('high');
-  // } else if ($importancelevel === 'high') {
-  //   level.text('critical');
-  // }
-  // storeTaskList();
+  console.log('upvote')
+  var $qualityLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
+  if ($qualityLevel === 'swill') {
+    $(this).parentsUntil('.task-section').find('.task-importance').text('plausible');
+  } else {
+    $(this).parentsUntil('.task-section').find('.task-importance').text('genius');
+  }
+  storeTaskList();
 }
+
+
+
+// function upVote() {
+
+//   var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
+//   var plausible = $(this).parentsUntil('.task').find('.task-importance').text('plausible');
+//   var genius = $(this).parentsUntil('.task').find('.task-importance').text('genius');
+//   ($importanceLevel === 'swill' ? plausible : genius);
+//   (genius ? next : next)
+//   storeTaskList();
+// }
 
 function downVote() {
   console.log('downvote')
-  // var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
-  // var cardId = $(this).parent().parent('.task-section').attr('id');
-  var cardImportance = $(this).parent().parent('.task-section').find('.task-importance').text();
-  console.log(cardImportance);
-
-
-
-  // if ($importanceLevel === 'critical') {
-  //   $(this).parentsUntil('.task').find('.task-importance').text('high');
-  // } else {
-  //   $(this).parentsUntil('.task').find('.task-importance').text('normal');
-  // }
-  // storeTaskList();
+  var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
+  if ($importanceLevel === 'genius') {
+    $(this).parentsUntil('.task-section').find('.task-importance').text('plausible');
+  } else {
+    $(this).parentsUntil('.task-section').find('.task-importance').text('swill');
+  }
+  storeTaskList();
 };
 
 function searchTask() {
@@ -161,8 +155,3 @@ function editBodyText() {
   storeTaskList();
 };
 
-// function displayTask() {
-//   console.log('display tasks')
-//   $('.task').removeAttr('style');
-//   // wtf?
-// }
