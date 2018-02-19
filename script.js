@@ -37,7 +37,7 @@ function createTask() {
 }
         
 function prependTask(title, body, uniqueId) {
-  console.log('prepend task')
+  // console.log('prepend task')
   $('.task-list').prepend(`
     <article class="task-section" id="${uniqueId}">
       <section class="task">
@@ -50,7 +50,7 @@ function prependTask(title, body, uniqueId) {
         <button class="complete-btn icon" alt="make task completed or not" ></button>
         <button aria-label="Increase importance" class="upvote-button icon" alt="upvote the "></button>
         <button aria-label="Decrease importance" class="downvote-button icon"></button>
-        <p class="task-importance-container">importance: <span class="task-importance">swill</span></p>
+        <p class="task-importance-container">importance: <span class="task-importance">normal</span></p>
       </section>  
       <hr>
     </article>
@@ -74,7 +74,7 @@ function loadTaskList() {
 function showTenTask(parsedTaskList) {
     var filter = $('.task-list').filter( ".task" )
     .css('display', 'none' )
-  console.log(parsedTaskList, parsedTaskList.length, filter, 'html: ', HTMLCollection.length)
+  // console.log(parsedTaskList, parsedTaskList.length, filter, 'html: ', HTMLCollection.length)
 
 }
 
@@ -97,23 +97,41 @@ function completeTask() {
 }
 
 function upVote() {
-  var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
-  var plausible = $(this).parentsUntil('.task').find('.task-importance').text('plausible');
-  var genius = $(this).parentsUntil('.task').find('.task-importance').text('genius');
-  ($importanceLevel === 'swill' ? plausible : genius);
-  (genius ? next : next)
-  storeTaskList();
+
+  var level = $(this).siblings('p').children('.task-importance').text();
+  //current importance level-- normal. very specific to card: returns normal
+  var $importanceLevel = $(this).closest().parent('.task').find('.task-importance').text();
+  //
+
+  console.log($importanceLevel);
+
+  // if ($importancelevel === 'none') {
+  //   level.text('low');
+  // } else if ($importancelevel === 'low') {
+  //   level.text('normal');
+  // } else if ($importancelevel === 'normal') {
+  //   level.text('high');
+  // } else if ($importancelevel === 'high') {
+  //   level.text('critical');
+  // }
+  // storeTaskList();
 }
 
 function downVote() {
   console.log('downvote')
-  var $importanceLevel = $(this).parentsUntil('.task').find('.task-importance').text();
-  if ($importanceLevel === 'genius') {
-    $(this).parentsUntil('.task').find('.task-importance').text('plausible');
-  } else {
-    $(this).parentsUntil('.task').find('.task-importance').text('swill');
-  }
-  storeTaskList();
+  // var $importanceLevel = $(this).parentsUntil('.task-section').find('.task-importance').text();
+  // var cardId = $(this).parent().parent('.task-section').attr('id');
+  var cardImportance = $(this).parent().parent('.task-section').find('.task-importance').text();
+  console.log(cardImportance);
+
+
+
+  // if ($importanceLevel === 'critical') {
+  //   $(this).parentsUntil('.task').find('.task-importance').text('high');
+  // } else {
+  //   $(this).parentsUntil('.task').find('.task-importance').text('normal');
+  // }
+  // storeTaskList();
 };
 
 function searchTask() {
