@@ -12,7 +12,7 @@ $('.show-complete-btn').on('click', toggleCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
-  displayTask();
+  // displayTask();
 });
 
 function enableBtn(){
@@ -26,7 +26,6 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
-  // $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
@@ -72,7 +71,8 @@ function loadTaskList() {
 
 function toggleCompleted(e) {
   e.preventDefault();
-  $('.task-list').find('.task-complete').toggle();
+  var $task = $('.task-list').find('.task-complete').toggle();
+  $('.task-list').prepend($task);
 }
 
 function deleteTask() {
@@ -118,13 +118,15 @@ function searchTask() {
 function clearInputs() {
   $('.task-title-input').val('');
   $('.task-body-input').val('');
+  $('.task-title-input').focus();
+  $('.save-btn').prop('disabled', true);
 }
 
-function displayTask() {
-  console.log('display tasks')
-  $('.task').removeAttr('style');
-  // wtf?
-}
+// function displayTask() {
+//   console.log('display tasks')
+//   $('.task').removeAttr('style');
+//   // wtf?
+// }
 
 function editTitleText() {
   var newText = $(this).text();
