@@ -18,7 +18,8 @@ $(window).on('load', function() {
 function enableBtn(){
   var $titleInput = $('.task-title-input');
   var $bodyInput = $('.task-body-input');
-  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled', false) : $('.save-btn').attr('disabled', true));
+  var $saveBtn = $('.save-btn');
+  ($titleInput.val() && $bodyInput.val() ? $saveBtn.removeAttr('disabled', false) : $saveBtn.attr('disabled', true));
 }
 
 function showAndStoreCard(event) {
@@ -60,14 +61,22 @@ function storeTaskList() {
   var taskList = $('.task-list').html();
   var JSONTaskList = JSON.stringify(taskList);
   localStorage.setItem('storedTaskList', JSONTaskList);
-  };
+};
 
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
   $('.task-list').find('.task-complete').hide();
+  showTenTask(parsedTaskList)
 };
+
+function showTenTask(parsedTaskList) {
+    var filter = $('.task-list').filter( ".task" )
+    .css('display', 'none' )
+  console.log(parsedTaskList, parsedTaskList.length, filter, 'html: ', HTMLCollection.length)
+
+}
 
 function toggleCompleted(e) {
   e.preventDefault();
@@ -122,12 +131,6 @@ function clearInputs() {
   $('.save-btn').prop('disabled', true);
 }
 
-// function displayTask() {
-//   console.log('display tasks')
-//   $('.task').removeAttr('style');
-//   // wtf?
-// }
-
 function editTitleText() {
   var newText = $(this).text();
   $(this).html(`${newText}`);
@@ -140,3 +143,8 @@ function editBodyText() {
   storeTaskList();
 };
 
+// function displayTask() {
+//   console.log('display tasks')
+//   $('.task').removeAttr('style');
+//   // wtf?
+// }
