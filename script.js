@@ -12,13 +12,14 @@ $('.show-complete-btn').on('click', toggleCompleted)
 
 $(window).on('load', function() {
   loadTaskList();
-  displayTask();
+  // displayTask();
 });
 
 function enableBtn(){
   var $titleInput = $('.task-title-input');
   var $bodyInput = $('.task-body-input');
-  ($titleInput.val() && $bodyInput.val() ? $('.save-btn').removeAttr('disabled', false) : $('.save-btn').attr('disabled', true));
+  var $saveBtn = $('.save-btn');
+  ($titleInput.val() && $bodyInput.val() ? $saveBtn.removeAttr('disabled', false) : $saveBtn.attr('disabled', true));
 }
 
 function showAndStoreCard(event) {
@@ -26,7 +27,6 @@ function showAndStoreCard(event) {
   createTask();
   storeTaskList();
   clearInputs();
-  // $('.save-btn').prop('disabled', true);
 };
 
 function createTask() {
@@ -61,18 +61,27 @@ function storeTaskList() {
   var taskList = $('.task-list').html();
   var JSONTaskList = JSON.stringify(taskList);
   localStorage.setItem('storedTaskList', JSONTaskList);
-  };
+};
 
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
   $('.task-list').find('.task-complete').hide();
+  showTenTask(parsedTaskList)
 };
+
+function showTenTask(parsedTaskList) {
+    var filter = $('.task-list').filter( ".task" )
+    .css('display', 'none' )
+  console.log(parsedTaskList, parsedTaskList.length, filter, 'html: ', HTMLCollection.length)
+
+}
 
 function toggleCompleted(e) {
   e.preventDefault();
-  $('.task-list').find('.task-complete').toggle();
+  var $task = $('.task-list').find('.task-complete').toggle();
+  $('.task-list').prepend($task);
 }
 
 function deleteTask() {
@@ -118,12 +127,8 @@ function searchTask() {
 function clearInputs() {
   $('.task-title-input').val('');
   $('.task-body-input').val('');
-}
-
-function displayTask() {
-  console.log('display tasks')
-  $('.task').removeAttr('style');
-  // wtf?
+  $('.task-title-input').focus();
+  $('.save-btn').prop('disabled', true);
 }
 
 function editTitleText() {
@@ -138,3 +143,8 @@ function editBodyText() {
   storeTaskList();
 };
 
+// function displayTask() {
+//   console.log('display tasks')
+//   $('.task').removeAttr('style');
+//   // wtf?
+// }
