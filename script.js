@@ -56,38 +56,65 @@ function prependTask(title, body, uniqueId) {
   `);
 };
 
-//WORKS BUT MAYBE NOT FOR UNIQUE IDS?
 function storeTaskList() {
   var taskList = $('.task-list').html();
   var JSONTaskList = JSON.stringify(taskList);
   localStorage.setItem('storedTaskList', JSONTaskList);
 };
 
-// function storeTaskList() {
-//   var taskKey = $('.task-section').attr('id');
-//   var taskArticle = $('.task-section').html();
-//   var JSONTaskList = JSON.stringify(taskArticle);
-//   localStorage.setItem(taskKey, JSONTaskList);
-// };
-  //now allows for each article to be stored individually------------------ JUST CHANGED. MAY NEED TO REVERT BACK TO OLDER CODE
-
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
-  // $('.task-list').prepend(parsedTaskList);
-  // $('.task-list').find('.task-complete').hide();
-  showTenTask(parsedTaskList)
+  $('.task-list').prepend(parsedTaskList);
+  $('.task-list').find('.task-complete').hide();
+  splitStorageHtml(parsedTaskList)
 };
 
-//DOESN"T WORK YET
-function showTenTask(parsedTaskList) {
-  var list = parsedTaskList;
-  var splitList = list.split('</article>');
-  var sleep = splitList.slice(0, 10)
-  console.log(sleep)
-  $('.task-list').prepend(sleep);
-  $('.task-list').find('.task-complete').hide();
+function splitStorageHtml(parsedTaskList) {
+  var parsedTasks = parsedTaskList;
+  var splitTasks = parsedTasks.split('</article>');
+    for(var i = 0; i < splitTasks.length - 1; i++){
+      var individualArticle = (splitTasks[i] + ' </article>');
+      showTenCards(individualArticle, i);
+    }
 }
+//how to remove the empty string at the end of the array before the for loop-- so that they are only articles.
+
+function showTenCards(article, i){
+  console.log(article, i);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function toggleCompleted(e) {
   e.preventDefault();
@@ -99,7 +126,7 @@ function toggleCompleted(e) {
 function filterCriticalTasks(e){
   e.preventDefault();
   var importanceLevel = $('.task-list').find('.task-importance').text();
-  console.log(importanceLevel);
+  // console.log(importanceLevel);
   if(importanceLevel === 'critical'){
     $('.task-list').parents('.task-section').show();
   } else {
