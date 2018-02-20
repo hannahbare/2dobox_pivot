@@ -1,19 +1,60 @@
-$('.save-btn').on('click', showAndStoreCard);
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
-$('.task-list').on('click', '.delete-button', deleteTask);
-$('.task-list').on('click', '.complete-btn', completeTask);
+$('.save-btn').on('click', showAndStoreCard);
+$('.filter-input').on('input', searchTask);
 $('.task-list').on('click', '.upvote-button', upVote);
 $('.task-list').on('click', '.downvote-button', downVote);
 $('.task-list').on('blur', 'h2', editTitleText);
 $('.task-list').on('blur', 'p', editBodyText);
-$('.filter-input').on('input', searchTask);
+$('.task-list').on('click', '.complete-btn', completeTask);
 $('.show-complete-btn').on('click', toggleCompleted);
+$('.task-list').on('click', '.delete-button', deleteTask);
 $('.critical-btn').on('click', filterCriticalTasks);
+$('.show-more-btn').on('click', showMoreTasks);
 
 $(window).on('load', function() {
   loadTaskList();
 });
+
+function loadTaskList() {
+  var retrievedTaskList = localStorage.getItem('storedTaskList');
+  var parsedTaskList = JSON.parse(retrievedTaskList);
+  $('.task-list').prepend(parsedTaskList);
+  hideCompletedTask();
+  splitStorageHtml(parsedTaskList)
+};
+
+function hideCompletedTask(){
+  $('.task-list').find('.task-complete').hide();
+}
+
+function splitStorageHtml(parsedTaskList) {
+  var parsedTasks = parsedTaskList;
+  var splitTasks = parsedTasks.split('</article>');
+  for(var i = 0; i < splitTasks.length - 1; i++){
+    var individualArticle = (splitTasks[i] + ' </article>');
+    showTenTasks(individualArticle, i);
+
+//how to remove the empty string at the end of the array before the for loop-- so that they are only articles.
+  }
+}
+
+function showTenTasks(article, i){
+  var articleIndexNum = $('.task-section')[i];
+  if(i < 10){
+    $(articleIndexNum).show();
+  } else {
+    $(articleIndexNum).hide();
+  }
+}
+
+function showMoreTasks(e){
+  e.preventDefault();
+  $('.task-list').hide();
+  var retrievedTaskList = localStorage.getItem('storedTaskList');
+  var parsedTaskList = JSON.parse(retrievedTaskList);
+  $('.task-list').prepend(parsedTaskList);
+}
 
 function enableBtn(){
   var $titleInput = $('.task-title-input');
@@ -62,88 +103,19 @@ function storeTaskList() {
   localStorage.setItem('storedTaskList', JSONTaskList);
 };
 
-function loadTaskList() {
-  var retrievedTaskList = localStorage.getItem('storedTaskList');
-  var parsedTaskList = JSON.parse(retrievedTaskList);
-  $('.task-list').prepend(parsedTaskList);
-  $('.task-list').find('.task-complete').hide();
-  splitStorageHtml(parsedTaskList)
-};
-
-function splitStorageHtml(parsedTaskList) {
-  var parsedTasks = parsedTaskList;
-  var splitTasks = parsedTasks.split('</article>');
-    for(var i = 0; i < splitTasks.length - 1; i++){
-      var individualArticle = (splitTasks[i] + ' </article>');
-      showTenCards(individualArticle, i);
-    }
-}
-//how to remove the empty string at the end of the array before the for loop-- so that they are only articles.
-
-function showTenCards(article, i){
-  console.log(article, i);
+function clearInputs() {
+  $('.task-title-input').val('');
+  $('.task-body-input').val('');
+  $('.task-title-input').focus();
+  $('.save-btn').prop('disabled', true);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function toggleCompleted(e) {
-  e.preventDefault();
-  var $task = $('.task-list').find('.task-complete').toggle();
-  $('.task-list').prepend($task);
-}
-
-//NOT WORKING YET
-function filterCriticalTasks(e){
-  e.preventDefault();
-  var importanceLevel = $('.task-list').find('.task-importance').text();
-  // console.log(importanceLevel);
-  if(importanceLevel === 'critical'){
-    $('.task-list').parents('.task-section').show();
-  } else {
-    $('.task-list').parents('.task-section').hide();
-  }
-}
-
-function deleteTask() {
-  $(this).closest('.task-section').remove();
-  storeTaskList();
-}
-
-// $(this).nextAll('button') path to both btns.-------- future code: DISABLES up & downvote btns
-function completeTask() {
-  $(this).parent().parent('.task-section').toggleClass('task-complete');
-  $(this).toggleClass('completed-task');
-  storeTaskList();
+function searchTask() {
+  var searchValue = $(this).val().toLowerCase();
+  $(".task").filter(function() {
+    var taskCard = $(this).parent(".task-section");
+    taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
+  });
 }
 
 function upVote() {
@@ -174,14 +146,6 @@ function downVote() {
   storeTaskList();
 };
 
-function searchTask() {
-  var searchValue = $(this).val().toLowerCase();
-  $(".task").filter(function() {
-    var taskCard = $(this).parent(".task-section");
-    taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
-  });
-}
-
 function editTitleText() {
   var newText = $(this).text();
   $(this).html(`${newText}`);
@@ -194,25 +158,36 @@ function editBodyText() {
   storeTaskList();
 };
 
-function clearInputs() {
-  $('.task-title-input').val('');
-  $('.task-body-input').val('');
-  $('.task-title-input').focus();
-  $('.save-btn').prop('disabled', true);
+// $(this).nextAll('button') path to both btns.-------- future code: DISABLES up & downvote btns
+function completeTask() {
+  $(this).parent().parent('.task-section').toggleClass('task-complete');
+  $(this).toggleClass('completed-task');
+  storeTaskList();
 }
 
+function toggleCompleted(e) {
+  e.preventDefault();
+  var $task = $('.task-list').find('.task-complete').toggle();
+  $('.task-list').prepend($task);
+}
 
-//IDEAS FOR HAVING 10 CARDS ON THE PAGE
-// for each card that is created, we need to have a counter-- and also push that individual card into an array, and then the rest of the cards, push into anothe
+function deleteTask() {
+  $(this).closest('.task-section').remove();
+  storeTaskList();
+}
 
+//NOT WORKING YET
+function filterCriticalTasks(e){
+  e.preventDefault();
+  var importanceLevel = $('.task-list').find('.task-importance').text();
+  // console.log(importanceLevel);
+  if(importanceLevel === 'critical'){
+    $('.task-list').parents('.task-section').show();
+  } else {
+    $('.task-list').parents('.task-section').hide();
+  }
+}
 
-
-
-//OPTIONS FOR MOVING FORWARD-- UNIQUE IDS VS. FULL HTML IN STORAGE:
-//1. continuing on with unique keys for local storage: need to grab id and parse card and then change importance level
-//---- create more single responsibility functions to parse, evaluate, stringify cards
-//2. REVERTING: using task-list html and counting the number of ids for up to 10 cards on the page
- 
 
 //OPTIONS FOR MAKING UPVOTE/DOWNVOTE BTNS SMALLER:
 //1. make an array out of the low/high
