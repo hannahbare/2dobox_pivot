@@ -74,14 +74,19 @@ function storeTaskList() {
 function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
-  $('.task-list').prepend(parsedTaskList);
-  $('.task-list').find('.task-complete').hide();
+  // $('.task-list').prepend(parsedTaskList);
+  // $('.task-list').find('.task-complete').hide();
   showTenTask(parsedTaskList)
 };
 
 //DOESN"T WORK YET
 function showTenTask(parsedTaskList) {
-    var filter = $('.task-list').filter( ".task" );
+  var list = parsedTaskList;
+  var splitList = list.split('</article>');
+  var sleep = splitList.slice(0, 10)
+  console.log(sleep)
+  $('.task-list').prepend(sleep);
+  $('.task-list').find('.task-complete').hide();
 }
 
 function toggleCompleted(e) {
