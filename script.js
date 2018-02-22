@@ -1,3 +1,5 @@
+var count = 0;
+
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
 $('.save-btn').on('click', showAndStoreCard);
@@ -10,7 +12,7 @@ $('.task-list').on('click', '.complete-btn', completeTask);
 $('.show-complete-btn').on('click', toggleCompleted);
 $('.task-list').on('click', '.delete-button', deleteTask);
 $('.critical-btn').on('click', filterCriticalTasks);
-$('.show-more-btn').on('click', showMoreTasks);
+$('.show-more-btn').on('click', showAllTasks);
 
 $(window).on('load', function() {
   loadTaskList();
@@ -20,41 +22,56 @@ function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
+  splitStorageHtml(parsedTaskList);
   hideCompletedTask();
-  splitStorageHtml(parsedTaskList)
 };
 
-function hideCompletedTask(){
+function hideCompletedTask() {
   $('.task-list').find('.task-complete').hide();
 }
 
 function splitStorageHtml(parsedTaskList) {
   var parsedTasks = parsedTaskList;
   var splitTasks = parsedTasks.split('</article>');
-  for(var i = 0; i < splitTasks.length - 1; i++){
+  var tasksLength = (splitTasks.length - 1);
+  for(var i = 0; i < splitTasks.length - 1; i++) {
     var individualArticle = (splitTasks[i] + ' </article>');
-    showTenTasks(individualArticle, i);
-
-//how to remove the empty string at the end of the array before the for loop-- so that they are only articles.
+    showTenTasks(individualArticle, i, tasksLength);
   }
 }
 
-function showTenTasks(article, i){
-  var articleIndexNum = $('.task-section')[i];
-  if(i < 10){
-    $(articleIndexNum).show();
-  } else {
-    $(articleIndexNum).hide();
-  }
-}
+function showTenTasks(article, i, tasksLength) {
+  // var totalArticleAmt = $('.task-section')[i];
+  // var completedTaskAmt = $('.task-list').find('.task-complete').length;
+  // var uncompltedTasks = (count - completedTaskAmt);
+  // console.log(uncompltedTasks);
 
-function showMoreTasks(e){
+  $('.task-section').addClass('task-section:nth-child(n+11)');
+
+
+  //var (totalamt - compltamt) 
+  //< !completedTasks.show()  {
+
+    //dont show completed cards
+    //show() the others;
+  }
+
+
+
+function showAllTasks(e){
   e.preventDefault();
-  $('.task-list').hide();
-  var retrievedTaskList = localStorage.getItem('storedTaskList');
-  var parsedTaskList = JSON.parse(retrievedTaskList);
-  $('.task-list').prepend(parsedTaskList);
+  $('.task-section').addClass('task-section:nth-child(n+11)');
+  // $('.task-section').hide();
+  // var retrievedTaskList = localStorage.getItem('storedTaskList');
+  // var parsedTaskList = JSON.parse(retrievedTaskList);
+  // $('.task-list').prepend(parsedTaskList);
 }
+
+
+
+
+
+
 
 function enableBtn(){
   var $titleInput = $('.task-title-input');
@@ -71,6 +88,7 @@ function showAndStoreCard(event) {
 };
 
 function createTask() {
+  count++;
   var taskTitleVal = $('.task-title-input').val();
   var taskBodyVal = $('.task-body-input').val();
   var uniqueId = $.now();
@@ -78,23 +96,7 @@ function createTask() {
 }
         
 function prependTask(title, body, uniqueId) {
-  $('.task-list').prepend(`
-    <article class="task-section" id="${uniqueId}">
-      <section class="task">
-        <h2 class="card__title" aria-label="task title" contenteditable>${title}</h2> 
-        <button aria-label="Delete task" class="delete-button icon" alt="delete the task">
-        </button>
-        <p class="card__body" aria-label="task body" contenteditable>${body}</p>
-      </section>
-      <section class="vote-container">
-        <button class="complete-btn icon" alt="make task completed or not" ></button>
-        <button aria-label="Increase importance" class="upvote-button icon" alt="upvote the "></button>
-        <button aria-label="Decrease importance" class="downvote-button icon"></button>
-        <p class="task-importance-container">importance: <span class="task-importance">normal</span></p>
-      </section>  
-      <hr>
-    </article>
-  `);
+  $('.task-list').prepend(`<article class="task-section" id="${uniqueId}"><section class="task"><h2 class="card__title" aria-label="task title" contenteditable>${title}</h2><button aria-label="Delete task" class="delete-button icon" alt="delete the task"></button><p class="card__body" aria-label="task body" contenteditable>${body}</p></section><section class="vote-container"><button class="complete-btn icon" alt="make task completed or not" ></button><button aria-label="Increase importance" class="upvote-button icon" alt="upvote the "></button><button aria-label="Decrease importance" class="downvote-button icon"></button><p class="task-importance-container">importance: <span class="task-importance">normal</span></p></section><hr></article>`);
 };
 
 function storeTaskList() {
@@ -172,6 +174,7 @@ function toggleCompleted(e) {
 }
 
 function deleteTask() {
+  count--;
   $(this).closest('.task-section').remove();
   storeTaskList();
 }
@@ -187,7 +190,3 @@ function filterCriticalTasks(e){
     $('.task-list').parents('.task-section').hide();
   }
 }
-
-
-//OPTIONS FOR MAKING UPVOTE/DOWNVOTE BTNS SMALLER:
-//1. make an array out of the low/high
