@@ -20,13 +20,14 @@ function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
-  hideCompletedTask();
   splitStorageHtml(parsedTaskList)
+  console.log($('.task-list').find('.task-complete').length)
 };
 
 function hideCompletedTask(){
   $('.task-list').find('.task-complete').hide();
 }
+
 
 function splitStorageHtml(parsedTaskList) {
   var parsedTasks = parsedTaskList;
@@ -34,26 +35,32 @@ function splitStorageHtml(parsedTaskList) {
   for(var i = 0; i < splitTasks.length - 1; i++){
     var individualArticle = (splitTasks[i] + ' </article>');
     showTenTasks(individualArticle, i);
-
 //how to remove the empty string at the end of the array before the for loop-- so that they are only articles.
   }
 }
 
 function showTenTasks(article, i){
-  var articleIndexNum = $('.task-section')[i];
-  if(i < 10){
-    $(articleIndexNum).show();
-  } else {
-    $(articleIndexNum).hide();
-  }
+  var completedTasks = document.querySelectorAll('.task-complete');
+  var allTasks = document.querySelectorAll('.task-section');
+  var allTasksArray = Array.from(allTasks)
+  var completedTasksArray = Array.from(completedTasks);
+  console.log('allTasksArray: ', allTasksArray, 'completedTasksArray: ', completedTasksArray)
+  // if(i < 10 && !('.task-complete')){
+  //   article.show()
+  // }
+  // var eachTask = $('.task-section')[i];
+  // var completed = $('.task-list').find('.task-complete').length;
+  
+ 
+  // hideCompletedTask();
 }
 
 function showMoreTasks(e){
   e.preventDefault();
-  $('.task-list').hide();
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
+  hideCompletedTask()
 }
 
 function enableBtn(){
@@ -79,22 +86,8 @@ function createTask() {
         
 function prependTask(title, body, uniqueId) {
   $('.task-list').prepend(`
-    <article class="task-section" id="${uniqueId}">
-      <section class="task">
-        <h2 class="card__title" aria-label="task title" contenteditable>${title}</h2> 
-        <button aria-label="Delete task" class="delete-button icon" alt="delete the task">
-        </button>
-        <p class="card__body" aria-label="task body" contenteditable>${body}</p>
-      </section>
-      <section class="vote-container">
-        <button class="complete-btn icon" alt="make task completed or not" ></button>
-        <button aria-label="Increase importance" class="upvote-button icon" alt="upvote the "></button>
-        <button aria-label="Decrease importance" class="downvote-button icon"></button>
-        <p class="task-importance-container">importance: <span class="task-importance">normal</span></p>
-      </section>  
-      <hr>
-    </article>
-  `);
+    <article class="task-section" id="${uniqueId}"> <section class="task"><h2 class="card__title" aria-label="task title" contenteditable>${title}</h2><button aria-label="Delete task" class="delete-button icon" alt="delete the task"></button><p class="card__body" aria-label="task body" contenteditable>${body}</p></section><section class="vote-container"><button class="complete-btn icon" alt="make task completed or not" ></button><button aria-label="Increase importance" class="upvote-button icon" alt="upvote the ">
+    </button><button aria-label="Decrease importance" class="downvote-button icon"></button><p class="task-importance-container">importance: <span class="task-importance">normal</span></p></section><hr></article>`);
 };
 
 function storeTaskList() {
