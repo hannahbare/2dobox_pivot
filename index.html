@@ -14,18 +14,15 @@
     <section class="header-container">
       <h1 class="logo" aria-label="to do box logo">2<span>Do</span>Box</h1>
       <form id="new-task-form">
-        <input class="task-title-input" type="text" placeholder="Title" aria-label="New task title" aria-required="true" maxlength="140" />
-        <input class="task-body-input" type="text" placeholder="Task" aria-label="New task body" aria-required="true" maxlength="140" />
+        <input class="task-title-input" type="text" placeholder="Title" aria-label="New task title" aria-required="true" maxlength="40" />
+        <input class="task-body-input" type="text" placeholder="Task" aria-label="New task body" aria-required="true" maxlength="120" />
         <button type="submit" aria-label="Submit new task" class="save-btn" disabled>save</button>
       </form>
     </section>
   </header>
   <section class="task-area">
-
     <input class="filter-input" type="text" placeholder="Filter" aria-label="Filter all to dos"/>
     <button class="filter-btns show-complete-btn">completed task</button>
-    <button class="filter-btns show-more-btn">show more</button>
-
     <button class="filter-btns critical-btn">critical task</button>
     <button class="filter-btns high-btn">high task</button>
     <button class="filter-btns normal-btn">normal task</button>

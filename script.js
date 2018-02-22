@@ -1,5 +1,3 @@
-var count = 0;
-
 $('.task-title-input').on('keyup', enableBtn);
 $('.task-body-input').on('keyup', enableBtn);
 $('.save-btn').on('click', showAndStoreCard);
@@ -11,8 +9,6 @@ $('.task-list').on('blur', 'p', editBodyText);
 $('.task-list').on('click', '.complete-btn', completeTask);
 $('.show-complete-btn').on('click', toggleCompleted);
 $('.task-list').on('click', '.delete-button', deleteTask);
-$('.critical-btn').on('click', filterCriticalTasks);
-$('.show-more-btn').on('click', showAllTasks);
 
 $(window).on('load', function() {
   loadTaskList();
@@ -22,56 +18,12 @@ function loadTaskList() {
   var retrievedTaskList = localStorage.getItem('storedTaskList');
   var parsedTaskList = JSON.parse(retrievedTaskList);
   $('.task-list').prepend(parsedTaskList);
-  splitStorageHtml(parsedTaskList);
   hideCompletedTask();
 };
 
 function hideCompletedTask() {
   $('.task-list').find('.task-complete').hide();
 }
-
-function splitStorageHtml(parsedTaskList) {
-  var parsedTasks = parsedTaskList;
-  var splitTasks = parsedTasks.split('</article>');
-  var tasksLength = (splitTasks.length - 1);
-  for(var i = 0; i < splitTasks.length - 1; i++) {
-    var individualArticle = (splitTasks[i] + ' </article>');
-    showTenTasks(individualArticle, i, tasksLength);
-  }
-}
-
-function showTenTasks(article, i, tasksLength) {
-  // var totalArticleAmt = $('.task-section')[i];
-  // var completedTaskAmt = $('.task-list').find('.task-complete').length;
-  // var uncompltedTasks = (count - completedTaskAmt);
-  // console.log(uncompltedTasks);
-
-  $('.task-section').addClass('task-section:nth-child(n+11)');
-
-
-  //var (totalamt - compltamt) 
-  //< !completedTasks.show()  {
-
-    //dont show completed cards
-    //show() the others;
-  }
-
-
-
-function showAllTasks(e){
-  e.preventDefault();
-  $('.task-section').addClass('task-section:nth-child(n+11)');
-  // $('.task-section').hide();
-  // var retrievedTaskList = localStorage.getItem('storedTaskList');
-  // var parsedTaskList = JSON.parse(retrievedTaskList);
-  // $('.task-list').prepend(parsedTaskList);
-}
-
-
-
-
-
-
 
 function enableBtn(){
   var $titleInput = $('.task-title-input');
@@ -88,7 +40,6 @@ function showAndStoreCard(event) {
 };
 
 function createTask() {
-  count++;
   var taskTitleVal = $('.task-title-input').val();
   var taskBodyVal = $('.task-body-input').val();
   var uniqueId = $.now();
@@ -114,8 +65,8 @@ function clearInputs() {
 
 function searchTask() {
   var searchValue = $(this).val().toLowerCase();
-  $(".task").filter(function() {
-    var taskCard = $(this).parent(".task-section");
+  $('.task').filter(function() {
+    var taskCard = $(this).parent('.task-section');
     taskCard.toggle($(this).text().toLowerCase().indexOf(searchValue) > -1);
   });
 }
@@ -160,7 +111,6 @@ function editBodyText() {
   storeTaskList();
 };
 
-// $(this).nextAll('button') path to both btns.-------- future code: DISABLES up & downvote btns
 function completeTask() {
   $(this).parent().parent('.task-section').toggleClass('task-complete');
   $(this).toggleClass('completed-task');
@@ -174,19 +124,6 @@ function toggleCompleted(e) {
 }
 
 function deleteTask() {
-  count--;
   $(this).closest('.task-section').remove();
   storeTaskList();
-}
-
-//NOT WORKING YET
-function filterCriticalTasks(e){
-  e.preventDefault();
-  var importanceLevel = $('.task-list').find('.task-importance').text();
-  // console.log(importanceLevel);
-  if(importanceLevel === 'critical'){
-    $('.task-list').parents('.task-section').show();
-  } else {
-    $('.task-list').parents('.task-section').hide();
-  }
 }
