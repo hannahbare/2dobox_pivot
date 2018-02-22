@@ -6,7 +6,6 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-/*Font*/
 h1 {
   color: #6d6e71;
   font-family: 'Roboto Slab', serif;
@@ -34,7 +33,6 @@ p {
   margin: 2vh 0;
 }
 
-/*Header*/
 header {
   align-items: center;
   background-color: #e5f3f2;
@@ -84,7 +82,6 @@ input {
   background-color: #045e55;
 }
 
-/*tasks List*/
 .task-complete {
   background-color: #f6f6f6;
 }
@@ -103,7 +100,7 @@ input {
   color: black;
   background-color: #ccedeb;
   height: 30px;
-  font-size: 2.6vh;
+  font-size: 2.3vh;
   width: 32.6%;
 }
 
@@ -111,33 +108,6 @@ input {
   background-color: #00a79d;
 }
 
-/*.show-complete-btn:hover {
-  background-color: #00211f;
-  color: white;
-}
-
-.critical-btn:hover {
-  background-color: #00423e;
-  color: white;
-}
-
-.high-btn:hover {
-  background-color: #00645e;
-  color: white;
-}
-
-.normal-btn:hover {
-  background-color: #4cc1ba;
-}
-
-.low-btn:hover {
-  background-color: #7fd3ce;
-}
-
-.none-btn:hover {
-  background-color: #fff;
-}
-*/
 #new-task-form {
   width: 100%;
 }
